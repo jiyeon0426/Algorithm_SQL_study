@@ -1,0 +1,19 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+
+        Scanner sc = new Scanner(System.in);
+        Set <Integer> set = new HashSet<>();
+
+        for(int i=0; i<10; i++){
+            int n = sc.nextInt();
+            set.add(n%42);
+        }
+
+        int result = set.size();
+
+        System.out.println(result);
+    }
+}
