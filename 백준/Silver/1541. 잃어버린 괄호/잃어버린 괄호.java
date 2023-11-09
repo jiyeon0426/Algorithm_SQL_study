@@ -12,43 +12,42 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
 
-        String str = sc.nextLine();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String[] num = str.split("[+-]");
-        String[] operands = new String[num.length-1];
 
         int n=0;
-        int sum = 0; //합계
+        int sum = 0;
+        int result =0; // 결과
 
-        for(int i=0; i<str.length(); i++){
-            if(str.charAt(i) == '+' || str.charAt(i)=='-'){
-                operands[n] = String.valueOf(str.charAt(i));
-                n++;
+        ArrayList<Integer> sum_group = new ArrayList<>();
+
+        StringTokenizer st = new StringTokenizer(br.readLine(), "-"); // - 기준으로 string 나눔
+
+
+        while(st.hasMoreTokens()){
+
+            String str = st.nextToken(); // 1+2+3  or 4+5
+            sum=0;
+
+            String []group= str.split("\\+"); //+ 기준으로 분리
+
+            for(int i=0; i<group.length; i++){
+                sum += Integer.parseInt(group[i]);
             }
+            sum_group.add(sum);
+
         }
 
 
-        for(int i=0; i<operands.length; i++){
-            if(operands[i].equals("-")){ // - 뒤에는 전부 -로 치환
-
-                int j = i+1;
-                while(j < operands.length && operands[j].equals("+")){
-                    operands[j] ="-";
-                    j++;
-                }
+        for(int i=0; i<sum_group.size(); i++){
+            if(i==0){
+                result += sum_group.get(i);
+                continue;
             }
+            result -= sum_group.get(i);
         }
 
-        sum = Integer.parseInt(num[0]);
-        for (int i = 0; i < operands.length; i++) {
-            if (operands[i].equals("+")) {
-                sum += Integer.parseInt(num[i + 1]);
-            } else if (operands[i].equals("-")) {
-                sum -= Integer.parseInt(num[i + 1]);
-            }
-        }
-
-        System.out.println(sum);
+        System.out.println(result);
     }
 }
 
