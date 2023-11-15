@@ -13,7 +13,7 @@ def bfs(graph, x,y):
 
         x, y = queue.popleft()
 
-        if x == goal_x and y==goal_y:
+        if x == goal_x and y==goal_y: # 목표 좌표에 도착했을 시 종료
             return graph[x][y]
 
         for i in range(8):
@@ -24,11 +24,8 @@ def bfs(graph, x,y):
                 continue
 
             if graph[nx][ny]==0: # 방문하지 않앗다면
-                graph[nx][ny] = graph[x][y] + 1 #2로 방문처리
+                graph[nx][ny] = graph[x][y] + 1 # 방문시 해당영역 +1
                 queue.append((nx,ny))
-
-
-    return count
 
 testcase = int(input())
 
