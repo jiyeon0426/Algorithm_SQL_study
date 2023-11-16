@@ -2,21 +2,19 @@ import sys
 
 sys.setrecursionlimit(10**6)
 
-def dfs(v, goal):
-    global distance
+def dfs(v, distance):
     global relation
 
     distance += 1
     visited[v] = True
 
-    if v == goal:
+    if v == num2:
         result.append(distance)
 
     for i in graph[v]:
         if visited[i] == False:
-            dfs(i, goal)
+            dfs(i, distance)
 
-    distance -= 1  # Backtrack: 각 호출이 끝날 때 거리를 감소시킵니다.
 
 n = int(input())  # 9명
 visited = [False] * (n + 1)
@@ -32,7 +30,7 @@ for i in range(k):
 distance = 0
 result = []
 
-dfs(num1, num2)
+dfs(num1, 0)
 
 if len(result) == 0:  # 촌수 계산 불가능
     print(-1)
