@@ -1,50 +1,40 @@
 import sys
-from collections import deque
 
 sys.setrecursionlimit(10**6)
 
-def dfs(graph, v, visited, goal, distance):
+def dfs(v, goal):
+    global distance
     global relation
+
+    distance += 1
     visited[v] = True
 
     if v == goal:
-        relation = True
-        return distance
+        result.append(distance)
 
     for i in graph[v]:
-        if not visited[i]:
-            next_distance = dfs(graph, i, visited, goal, distance + 1)
-            if next_distance > 0:  # 목표에 도달한 경우에만 거리를 반환
-                return next_distance
+        if visited[i] == False:
+            dfs(i, goal)
 
-    return -1  # 목표에 도달하지 못한 경우
+    distance -= 1  # Backtrack: 각 호출이 끝날 때 거리를 감소시킵니다.
 
-# 전체 사람의 수 n
-n = int(input())
+n = int(input())  # 9명
+visited = [False] * (n + 1)
+num1, num2 = map(int, input().split())  # 7 과 3의 촌수 계산하기
+k = int(input())  # 입력값 갯수
+graph = [[] for _ in range(n + 1)]
 
-# 촌수를 계산해야 하는 서로 다른 두 사람의 번호 num1, num2
-num1, num2 = map(int, input().split())
-
-# 부모 자식들 간의 관계의 개수 m
-m = int(input())
-
-# 부모 자식 간의 관계를 나타내는 그래프 graph
-graph = [[] for _ in range(n+1)]
-
-for _ in range(m):
+for i in range(k):
     x, y = map(int, input().split())
     graph[x].append(y)
     graph[y].append(x)
 
-# 방문 여부를 나타내는 visited 배열
-visited = [False] * (n+1)
-
-# 초기 촌수 및 연관 여부 설정
 distance = 0
-relation = False
+result = []
 
-# DFS 수행
-result = dfs(graph, num1, visited, num2, distance)
+dfs(num1, num2)
 
-# 결과 출력
-print(result)
+if len(result) == 0:  # 촌수 계산 불가능
+    print(-1)
+else:
+    print(result[0] - 1)
